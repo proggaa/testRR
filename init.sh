@@ -26,21 +26,6 @@ echo -e "\e[96mWelcome to icms2-docker Installation Wizard\e[39m"
 echo "Please answer the questions to initialise your installation"
 echo ""
 
-for key in "${order[@]}"; do 
-    default=${envs[$key]}
-    prompt=${prompts[$key]}
-    read -p "    $prompt "$'\e[2m['"$default"$']\e[22m: ' answer
-    answer=${answer:-$default}
-    envs[$key]=$answer
-done
-
-echo ""
-
-echo "Saving configuration..."
-rm -f $DIR/.env
-for key in "${order[@]}"; do 
-    echo "$key=${envs[$key]}" >> $DIR/.env
-done
 
 VERSION="${envs[VERSION]}"
 
@@ -50,7 +35,7 @@ rm -rf $DIR/mysql/db/*
 echo '' > $DIR/mysql/db/.gitkeep
 
 echo "Downloading InstantCMS v$VERSION..."
-git clone -q --branch $VERSION https://github.com/instantsoft/icms2.git || { 
+git clone -q https://github.com/instantsoft/icms2.git || {
     echo 'Failed to download. Bad version?' ; exit 1; 
 }
 
